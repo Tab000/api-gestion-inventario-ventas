@@ -1,4 +1,4 @@
-Stage 1 — Requerimientos, Historias de Usuario y ASR
+## Stage 1 — Requerimientos, Historias de Usuario y ASR
 
 Nicolás Taborda Miranda - 408875
 
