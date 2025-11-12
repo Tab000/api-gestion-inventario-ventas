@@ -9,5 +9,3 @@ Miguel Angel Quintero Aragon - 408592
 Link Video Justificación:
 
 Link Video Demostración:
-
-Link Video Documentacion: https://youtu.be/rzRjn3LbOIo?si=cGTFEtPzcpjy0TNZ
