@@ -2,11 +2,12 @@
 
 Nicolás Taborda Miranda - 408875
 
-
 Miguel Angel Quintero Aragon - 408592
 
 ## Link Video
 
 Link Video Justificación:
 
-Link Video Demostración: 
+Link Video Demostración:
+
+Link Video Documentacion: https://youtu.be/rzRjn3LbOIo?si=cGTFEtPzcpjy0TNZ
