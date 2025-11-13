@@ -1,10 +1,11 @@
-## Stage 1 — Requerimientos, Historias de Usuario y ASR
+## Stage 2 — Implementacion
 
 Nicolás Taborda Miranda - 408875
-
 
 Miguel Angel Quintero Aragon - 408592
 
 ## Link Video
 
-Link Video Documentacion: https://youtu.be/rzRjn3LbOIo?si=cGTFEtPzcpjy0TNZ
+Link Video Justificación: https://drive.google.com/file/d/10OkdqyHtrcNEA7XjQNH1JMlyepbrFW4r/view?usp=sharing
+
+Link Video Demostración: https://drive.google.com/file/d/1GPx2NPEUjsEGOgpCFb_tyzmlNi9KZZsC/view?usp=sharing
