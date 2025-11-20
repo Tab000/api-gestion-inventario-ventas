@@ -1,0 +1,58 @@
+services:
+  clients-service:
+    build:
+      context: ./microservice-clients
+      dockerfile: Dockerfile
+    container_name: microservice-clients
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./microservice-clients/data:/app/data
+    environment:
+      - PORT=3001
+      - DB_PATH=/app/data/db-clients.sqlite
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  products-service:
+    build:
+      context: ./microservice-products
+      dockerfile: Dockerfile
+    container_name: microservice-products
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./microservice-products/data:/app/data
+    environment:
+      - PORT=3002
+      - DB_PATH=/app/data/db-products.sqlite
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  sales-service:
+    build:
+      context: ./microservice-sales
+      dockerfile: Dockerfile
+    container_name: microservice-sales
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./microservice-sales/data:/app/data
+    environment:
+      - PORT=3003
+      - DB_PATH=/app/data/db-sales.sqlite
+      - CLIENTS_SERVICE_URL=http://clients-service:3001
+      - PRODUCTS_SERVICE_URL=http://products-service:3002
+    depends_on:
+      - clients-service
+      - products-service
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+networks:
+  microservices-network:
+    driver: bridge
+

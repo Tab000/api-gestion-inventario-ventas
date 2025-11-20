@@ -1,0 +1,563 @@
+{
+	"info": {
+		"_postman_id": "microservices-api-test",
+		"name": "Microservicios - Gestión Inventario y Ventas",
+		"description": "Colección completa de pruebas para los microservicios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Health Checks",
+			"item": [
+				{
+					"name": "Health - Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/health",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3001",
+							"path": ["health"]
+						}
+					}
+				},
+				{
+					"name": "Health - Productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/health",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3002",
+							"path": ["health"]
+						}
+					}
+				},
+				{
+					"name": "Health - Ventas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3003/health",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3003",
+							"path": ["health"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Microservicio Clientes",
+			"item": [
+				{
+					"name": "Crear Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Pérez\",\n  \"document\": \"12345678\",\n  \"address\": \"Calle Principal 123\",\n  \"phone\": \"555-1234\",\n  \"email\": \"juan.perez@example.com\",\n  \"observations\": \"Cliente preferencial\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/clients",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3001",
+							"path": ["clients"]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"client_id\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener Todos los Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/clients",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3001",
+							"path": ["clients"]
+						}
+					}
+				},
+				{
+					"name": "Obtener Cliente por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/clients/{{client_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3001",
+							"path": ["clients", "{{client_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Crear Cliente - Error Duplicado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Pérez\",\n  \"document\": \"12345678\",\n  \"address\": \"Calle Principal 123\",\n  \"phone\": \"555-1234\",\n  \"email\": \"juan.perez@example.com\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/clients",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3001",
+							"path": ["clients"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Microservicio Productos",
+			"item": [
+				{
+					"name": "Crear Producto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code_sku\": \"PROD-001\",\n  \"name\": \"Laptop Dell XPS 15\",\n  \"category\": \"Electrónica\",\n  \"price_unit\": 1500.00,\n  \"cost_unit\": 1000.00,\n  \"stock_actual\": 50,\n  \"stock_minimo\": 10,\n  \"location\": \"Almacén A\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3002/products",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3002",
+							"path": ["products"]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"product_id\", jsonData.id);",
+									"    pm.environment.set(\"product_stock_initial\", jsonData.stock_actual);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener Todos los Productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/products",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3002",
+							"path": ["products"]
+						}
+					}
+				},
+				{
+					"name": "Obtener Producto por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/products/{{product_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3002",
+							"path": ["products", "{{product_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Actualizar Stock",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 5\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3002/products/{{product_id}}/stock",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3002",
+							"path": ["products", "{{product_id}}", "stock"]
+						}
+					}
+				},
+				{
+					"name": "Crear Producto - Error SKU Duplicado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code_sku\": \"PROD-001\",\n  \"name\": \"Producto Duplicado\",\n  \"category\": \"Test\",\n  \"price_unit\": 100.00,\n  \"cost_unit\": 50.00,\n  \"stock_actual\": 10,\n  \"stock_minimo\": 5,\n  \"location\": \"Test\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3002/products",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3002",
+							"path": ["products"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Microservicio Ventas",
+			"item": [
+				{
+					"name": "Registrar Venta (Consulta Clientes y Productos)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": {{client_id}},\n  \"products\": [\n    {\n      \"product_id\": {{product_id}},\n      \"quantity\": 2\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3003/sales",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3003",
+							"path": ["sales"]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"sale_id\", jsonData.sale.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener Todas las Ventas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3003/sales",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3003",
+							"path": ["sales"]
+						}
+					}
+				},
+				{
+					"name": "Obtener Venta por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3003/sales/{{sale_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3003",
+							"path": ["sales", "{{sale_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Registrar Venta - Error Cliente No Existe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": 99999,\n  \"products\": [\n    {\n      \"product_id\": {{product_id}},\n      \"quantity\": 1\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3003/sales",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3003",
+							"path": ["sales"]
+						}
+					}
+				},
+				{
+					"name": "Registrar Venta - Error Producto No Existe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": {{client_id}},\n  \"products\": [\n    {\n      \"product_id\": 99999,\n      \"quantity\": 1\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3003/sales",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3003",
+							"path": ["sales"]
+						}
+					}
+				},
+				{
+					"name": "Registrar Venta - Error Stock Insuficiente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": {{client_id}},\n  \"products\": [\n    {\n      \"product_id\": {{product_id}},\n      \"quantity\": 99999\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3003/sales",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3003",
+							"path": ["sales"]
+						}
+					}
+				},
+				{
+					"name": "Registrar Venta - Múltiples Productos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": {{client_id}},\n  \"products\": [\n    {\n      \"product_id\": {{product_id}},\n      \"quantity\": 1\n    },\n    {\n      \"product_id\": {{product_id}},\n      \"quantity\": 2\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3003/sales",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3003",
+							"path": ["sales"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Flujo Completo",
+			"item": [
+				{
+					"name": "Paso 1: Crear Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"María González\",\n  \"document\": \"87654321\",\n  \"address\": \"Avenida Central 456\",\n  \"phone\": \"555-5678\",\n  \"email\": \"maria.gonzalez@example.com\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/clients",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3001",
+							"path": ["clients"]
+						}
+					}
+				},
+				{
+					"name": "Paso 2: Crear Producto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code_sku\": \"PROD-002\",\n  \"name\": \"Mouse Inalámbrico Logitech\",\n  \"category\": \"Accesorios\",\n  \"price_unit\": 25.99,\n  \"cost_unit\": 15.00,\n  \"stock_actual\": 100,\n  \"stock_minimo\": 20,\n  \"location\": \"Almacén B\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3002/products",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3002",
+							"path": ["products"]
+						}
+					}
+				},
+				{
+					"name": "Paso 3: Verificar Stock Inicial",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/products/{{product_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3002",
+							"path": ["products", "{{product_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Paso 4: Registrar Venta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"client_id\": {{client_id}},\n  \"products\": [\n    {\n      \"product_id\": {{product_id}},\n      \"quantity\": 5\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3003/sales",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3003",
+							"path": ["sales"]
+						}
+					}
+				},
+				{
+					"name": "Paso 5: Verificar Stock Actualizado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/products/{{product_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3002",
+							"path": ["products", "{{product_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Paso 6: Verificar Venta Registrada",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3003/sales/{{sale_id}}",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "3003",
+							"path": ["sales", "{{sale_id}}"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "client_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "product_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "sale_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
+
