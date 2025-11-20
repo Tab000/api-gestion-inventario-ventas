@@ -1,0 +1,32 @@
+{
+  "name": "api-gestion-inventario-ventas-microservices",
+  "version": "2.0.0",
+  "description": "Sistema de gestión de inventario y ventas con arquitectura de microservicios",
+  "scripts": {
+    "install:all": "cd microservice-clients && npm install && cd ../microservice-products && npm install && cd ../microservice-sales && npm install",
+    "dev:clients": "cd microservice-clients && npm run dev",
+    "dev:products": "cd microservice-products && npm run dev",
+    "dev:sales": "cd microservice-sales && npm run dev",
+    "build:clients": "cd microservice-clients && npm run build",
+    "build:products": "cd microservice-products && npm run build",
+    "build:sales": "cd microservice-sales && npm run build",
+    "build:all": "npm run build:clients && npm run build:products && npm run build:sales"
+  },
+  "keywords": [
+    "microservices",
+    "inventory",
+    "sales",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.1"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "express": "^5.1.0",
+    "sqlite3": "^5.1.7"
+  }
+}
